@@ -1,11 +1,31 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
+import emailjs from "@emailjs/browser";
 import heroTulips from "@/assets/hero-tulips.jpg";
 import photoPuppy from "@/assets/hqdefault.webp";
 import photoTulipsField from "@/assets/sorry-dog.gif";
 import photoLetter from "@/assets/ynmq.webp";
 import tulipDoodle from "@/assets/tulip-doodle.png";
 import { TulipIcon, HeartIcon } from "@/components/TulipIcon";
+
+// ─── EmailJS config ───────────────────────────────────────────────────────────
+const EMAILJS_SERVICE_ID  = "REEMPLAZA_SERVICE_ID";   // ← paso 3
+const EMAILJS_TEMPLATE_ID = "REEMPLAZA_TEMPLATE_ID";  // ← paso 4
+const EMAILJS_PUBLIC_KEY  = "REEMPLAZA_PUBLIC_KEY";   // ← paso 2
+// ─────────────────────────────────────────────────────────────────────────────
+
+function sendNotification(respuesta: "✅ SÍ ME PERDONÓ" | "❌ Todavía no...") {
+  emailjs.send(
+    EMAILJS_SERVICE_ID,
+    EMAILJS_TEMPLATE_ID,
+    {
+      respuesta,
+      fecha: new Date().toLocaleString("es"),
+      to_email: "blancojosue931@gmail.com",
+    },
+    EMAILJS_PUBLIC_KEY
+  ).catch(() => { /* silencioso si falla */ });
+}
 
 export const Route = createFileRoute("/")(({
   head: () => ({
@@ -49,10 +69,15 @@ function Index() {
     setShaking(true);
     setButtonClicks((c) => c + 1);
     setTimeout(() => setShaking(false), 600);
+    if (buttonClicks === 0) {
+      // Solo notifica la primera vez que presiona "No"
+      sendNotification("❌ Todavía no...");
+    }
   }
 
   function handleAccept() {
     setAccepted(true);
+    sendNotification("✅ SÍ ME PERDONÓ");
     setTimeout(() => {
       document.getElementById("gracias")?.scrollIntoView({ behavior: "smooth", block: "center" });
     }, 100);
@@ -202,13 +227,10 @@ function Index() {
       {/* RECUERDOS — galería de momentos bonitos */}
       <section id="recuerdos" className="max-w-6xl mx-auto px-6 md:px-12 py-24">
         <div className="text-center mb-16">
-          <p className="font-script text-2xl text-mustard">— lo que valoro de nosotras</p>
+          <p className="font-script text-2xl text-mustard">Entonces...</p>
           <h2 className="font-display text-4xl md:text-5xl text-ink mt-1">
-            Recuerdos que atesoro
+            Me perdonas?
           </h2>
-          <p className="text-cocoa/70 mt-3 max-w-md mx-auto text-lg">
-            Estas imágenes me recuerdan por qué quiero arreglarlo todo.
-          </p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 md:gap-4">
