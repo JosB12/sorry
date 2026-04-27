@@ -189,7 +189,7 @@ function Index() {
             <div className="space-y-5 font-script text-2xl text-ink leading-relaxed">
               <p>
                 Sé que lo que pasó te pudo haber dolido, o enojado un poco.
-                Pero quiero que sepas que no fue mi intención hacerte sentir de esa manera.
+                Pero quiero que sepas que lo siento mucho y tengo toda la intención de no hacerte sentir de esa manera nuevamente.
               </p>
               <p>
                 Me equivoqué. No hay otra forma de decirlo.
